@@ -11,15 +11,34 @@ namespace logging {
     // ---------- 函数式入口 ----------
     // 第一版不引入 fmt，直接用 std::string
 
+    /**
+     * @brief Debug信息入口
+     * @param msg
+     */
     inline void Debug(const std::string& msg) {
         GetDefaultLogger()->Log(LogLevel::Debug, msg);
     }
+
+    /**
+     * @brief 一般信息入口
+     * @param msg
+     */
     inline void Info(const std::string& msg) {
         GetDefaultLogger()->Log(LogLevel::Info, msg);
     }
+
+    /**
+     * @brief 警告信息入口
+     * @param msg
+     */
     inline void Warn(const std::string& msg) {
         GetDefaultLogger()->Log(LogLevel::Warn, msg);
     }
+
+    /**
+     * @brief 错误信息入口
+     * @param msg
+     */
     inline void Error(const std::string& msg) {
         GetDefaultLogger()->Log(LogLevel::Error, msg);
     }

@@ -1,18 +1,5 @@
-//
-// Created by adminstrator on 2026/5/15.
-//
-
-#ifndef TINYLOGLIBRARY_LOGGER_H
-#define TINYLOGLIBRARY_LOGGER_H
-
-enum class LogLevel {
-    Debug,  // 调试信息
-    Info,   // 一般信息
-    Warn,   // 警告
-    Error,  //错误
-    Critical// 严重错误
-};
-
+#pragma once
+#include "LogLevel.h"
 
 /**
  * @brief 日志器
@@ -32,5 +19,3 @@ public:
 private:
 };
 
-
-#endif //TINYLOGLIBRARY_LOGGER_H

@@ -13,7 +13,6 @@ add_executable(normaltest
     testcase/normaltest.cpp
         Logger.cpp
         Logger.h
-        Sink.cpp
         Sink.h
         LogLevel.h
         Logging.h

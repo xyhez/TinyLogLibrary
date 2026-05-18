@@ -1,10 +1,9 @@
-//
-// Created by adminstrator on 2026/5/15.
-//
+#pragma once
 
-#ifndef TINYLOGLIBRARY_LOGLEVEL_H
-#define TINYLOGLIBRARY_LOGLEVEL_H
-
-// 日志等级划分
-
-#endif //TINYLOGLIBRARY_LOGLEVEL_H
+enum class LogLevel {
+    Debug,  // 调试信息
+    Info,   // 一般信息
+    Warn,   // 警告
+    Error,  //错误
+    Critical// 严重错误
+};

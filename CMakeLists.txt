@@ -16,4 +16,5 @@ add_executable(normaltest
         Sink.h
         LogLevel.h
         Logging.h
+        ConsileSink.h
 )

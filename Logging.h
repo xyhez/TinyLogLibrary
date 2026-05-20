@@ -6,7 +6,9 @@
 namespace logging {
 
     // 获取默认 Logger（全局单例）
-    Logger* GetDefaultLogger();
+    Logger* GetDefaultLogger() {
+
+    }
 
     // ---------- 函数式入口 ----------
     // 第一版不引入 fmt，直接用 std::string

@@ -1,0 +1,8 @@
+//
+// Created by adminstrator on 2026/5/20.
+//
+
+#ifndef TINYLOGLIBRARY_FORMATTER_H
+#define TINYLOGLIBRARY_FORMATTER_H
+
+#endif //TINYLOGLIBRARY_FORMATTER_H

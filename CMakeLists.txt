@@ -18,4 +18,5 @@ add_executable(normaltest
         Logging.h
         ConsoleSink.h
         FileSink.h
+        Formatter.h
 )

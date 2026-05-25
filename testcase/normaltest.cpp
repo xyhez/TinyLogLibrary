@@ -1,7 +1,9 @@
 #include<iostream>
+#include "../Logging.h"
 
 int main() {
-    std::cout<<"hello world"<<std::endl;
+
+    logging::Error("This is a Trace log.");
 
     return 0;
 }

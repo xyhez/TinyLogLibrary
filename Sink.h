@@ -8,8 +8,9 @@
 class Sink {
     public:
     Sink() = default;
-    ~Sink() = default;
+    virtual ~Sink() = default;
 
-    virtual void Write(const Record& record) = 0;
+    virtual void SinkIt(const LogRecord& record) = 0;
+    virtual void Flush() = 0;
 
 };

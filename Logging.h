@@ -2,23 +2,38 @@
 
 #include "Logger.h"
 #include <string>
+#include <memory>
+
+#include "ConsoleSink.h"
 
 namespace logging {
 
     // 获取默认 Logger（全局单例）
     Logger* GetDefaultLogger() {
-
+        static Logger default_logger;
+        static bool initialized = false;
+        if (!initialized) {
+            default_logger.AddSink(std::make_shared<ConsoleSink>());
+            initialized = true;
+        }
+        return &default_logger;
     }
 
-    // ---------- 函数式入口 ----------
-    // 第一版不引入 fmt，直接用 std::string
 
     /**
-     * @brief Debug信息入口
+     * @brief 跟踪信息入口
+     * @param msg
+     */
+    inline void Trace(const std::string& msg) {
+        GetDefaultLogger()->Print(LogLevel::Trace, msg);
+    }
+
+    /**
+     * @brief 调试信息入口
      * @param msg
      */
     inline void Debug(const std::string& msg) {
-        GetDefaultLogger()->Log(LogLevel::Debug, msg);
+        GetDefaultLogger()->Print(LogLevel::Debug, msg);
     }
 
     /**
@@ -26,7 +41,7 @@ namespace logging {
      * @param msg
      */
     inline void Info(const std::string& msg) {
-        GetDefaultLogger()->Log(LogLevel::Info, msg);
+        GetDefaultLogger()->Print(LogLevel::Info, msg);
     }
 
     /**
@@ -34,7 +49,7 @@ namespace logging {
      * @param msg
      */
     inline void Warn(const std::string& msg) {
-        GetDefaultLogger()->Log(LogLevel::Warn, msg);
+        GetDefaultLogger()->Print(LogLevel::Warn, msg);
     }
 
     /**
@@ -42,10 +57,15 @@ namespace logging {
      * @param msg
      */
     inline void Error(const std::string& msg) {
-        GetDefaultLogger()->Log(LogLevel::Error, msg);
+        GetDefaultLogger()->Print(LogLevel::Error, msg);
     }
+
+    /**
+     * @brief 严重信息入口
+     * @param msg
+     */
     inline void Critical(const std::string& msg) {
-        GetDefaultLogger()->Log(LogLevel::Critical, msg);
+        GetDefaultLogger()->Print(LogLevel::Critical, msg);
     }
 
 } // namespace logging

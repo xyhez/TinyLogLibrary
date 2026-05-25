@@ -1,5 +1,6 @@
 #pragma once
 #include "LogRecord.h"
+#include "Formatter.h"
 // 抽象接口，是所有XxxSink的父类，是所有Sink实现的抽象，Logger只关心
 
 /**
@@ -12,5 +13,12 @@ class Sink {
 
     virtual void SinkIt(const LogRecord& record) = 0;
     virtual void Flush() = 0;
+
+    void SetFormatter(std::shared_ptr<Fomatter> fmt) {
+        formatter_ = fmt;
+    }
+private:
+    std::shared_ptr<Fomatter> formatter_;
+
 
 };

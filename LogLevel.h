@@ -2,7 +2,7 @@
 #include <string>
 
 enum class LogLevel {
-    Trace,
+    Trace,  // 跟踪信息
     Debug,  // 调试信息
     Info,   // 一般信息
     Warn,   // 警告

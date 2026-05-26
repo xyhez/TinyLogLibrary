@@ -13,11 +13,16 @@ public:
     Logger() = default;
 
     /**
-     * @brief 核心打印方法
-     * @param level
-     * @param message
+     * @brief 核心打印方法（不带源码位置）
      */
     void Print(LogLevel level, const std::string& message);
+
+    /**
+     * @brief 核心打印方法（带源码位置，宏入口走这个）
+     */
+    void Print(LogLevel level,
+               const std::string& message,
+               const std::string& source_location);
 
     /**
      * @brief 添加Sink
@@ -36,6 +41,7 @@ public:
     void Flush();
 
 private:
+    ///< 分发器列表
     std::vector<std::shared_ptr<Sink>> sinks_;
 };
 

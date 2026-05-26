@@ -10,8 +10,10 @@
 
 class ConsoleSink : public Sink{
 public:
-    ConsoleSink() = default;
-    ~ConsoleSink() = default;
+    ConsoleSink() {
+        formatter_ = std::make_shared<SimpleFormatter>();
+    }
+    ~ConsoleSink() override = default;
 
     /**
      * @brief 把日志输出到控制台
@@ -23,25 +25,10 @@ public:
             || record.GetLevel() == LogLevel::Info
             || record.GetLevel() == LogLevel::Debug
             || record.GetLevel() == LogLevel::Warn) {
-            // 时间转换
-            std::time_t time_point = std::chrono::system_clock::to_time_t(record.GetTime());
-            // 转换本地时间
-            std::tm local_tm = *std::localtime(&time_point);
-            std::cout << "\nLevel:" <<LogLevelToString(record.GetLevel())
-                    << "\nMessage:" <<record.GetMessage()
-                    << "\nTime:" <<std::put_time(&local_tm,"%Y-%m-%d %H:%M:%S")
-                    << "\nSource:" <<record.GetSourceLocation()
-                    << std::endl;
+
+            std::cout << formatter_->Format(record) << std::endl;
         } else {
-            // 时间转换
-            std::time_t time_point = std::chrono::system_clock::to_time_t(record.GetTime());
-            // 转换本地时间
-            std::tm local_tm = *std::localtime(&time_point);
-            std::cerr << "\nLevel:" <<LogLevelToString(record.GetLevel())
-                    << "\nMessage:" <<record.GetMessage()
-                    << "\nTime:" <<std::put_time(&local_tm,"%Y-%m-%d %H:%M:%S")
-                    << "\nSource:" <<record.GetSourceLocation()
-                    << std::endl;
+            std::cerr << formatter_->Format(record) << std::endl;
         }
     }
 

@@ -1,1 +1,23 @@
-/Doc/LogLibraryOS.md
+# Build directories
+cmake-build-*/
+build/
+out/
+
+# IDE
+.idea/
+.vs/
+.vscode/
+*.iml
+
+# Compiled output
+*.exe
+*.obj
+*.o
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.a
+
+# Runtime artifacts
+logfile/

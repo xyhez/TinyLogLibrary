@@ -1,0 +1,12 @@
+[2026-05-27 11:46:14.231] [D:/githubProject/TinyLogLibrary/tests/normaltest.cpp:4 main] [Trace] This is a Trace log.
+[2026-05-27 11:46:14.231] [D:/githubProject/TinyLogLibrary/tests/normaltest.cpp:5 main] [Debug] This is a Debug log.
+[2026-05-27 11:46:14.231] [D:/githubProject/TinyLogLibrary/tests/normaltest.cpp:6 main] [Info] This is an Info log.
+[2026-05-27 11:46:14.231] [D:/githubProject/TinyLogLibrary/tests/normaltest.cpp:7 main] [Warn] This is a Warn log.
+[2026-05-27 11:46:14.231] [D:/githubProject/TinyLogLibrary/tests/normaltest.cpp:8 main] [Error] This is an Error log.
+[2026-05-27 11:46:14.231] [D:/githubProject/TinyLogLibrary/tests/normaltest.cpp:9 main] [Critical] This is a Critical log.
+[2026-05-27 11:48:13.979] [D:/githubProject/TinyLogLibrary/tests/normaltest.cpp:4 main] [Trace] This is a Trace log.
+[2026-05-27 11:48:13.981] [D:/githubProject/TinyLogLibrary/tests/normaltest.cpp:5 main] [Debug] This is a Debug log.
+[2026-05-27 11:48:13.981] [D:/githubProject/TinyLogLibrary/tests/normaltest.cpp:6 main] [Info] This is an Info log.
+[2026-05-27 11:48:13.981] [D:/githubProject/TinyLogLibrary/tests/normaltest.cpp:7 main] [Warn] This is a Warn log.
+[2026-05-27 11:48:13.981] [D:/githubProject/TinyLogLibrary/tests/normaltest.cpp:8 main] [Error] This is an Error log.
+[2026-05-27 11:48:13.982] [D:/githubProject/TinyLogLibrary/tests/normaltest.cpp:9 main] [Critical] This is a Critical log.

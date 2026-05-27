@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git rm *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(mkdir -p include/tiny_log/detail src tests docs logfile)",
+      "Bash(rm -rf cmake-build-debug/logfile)",
+      "Bash(rm -f logfile/log1.txt)",
+      "Bash(cmake ..)",
+      "Bash(rm -rf cmake-build-debug)",
+      "Bash(mkdir cmake-build-debug *)",
+      "Bash(cmake -G Ninja ..)",
+      "Bash(export PATH=\"/d/CLion 2026.1.1/bin/mingw/bin:$PATH\")",
+      "Bash(cmake -G Ninja \"D:/githubProject/TinyLogLibrary\")"
+    ]
+  }
+}

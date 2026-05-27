@@ -9,21 +9,20 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable(normaltest
-    testcase/normaltest.cpp
-        Logger.cpp
-        Logger.h
-        Sink.h
-        LogLevel.h
-        Logging.h
-        ConsoleSink.h
-        FileSink.h
-        Formatter.h
-        Tools.h
+# ---------------- Library ----------------
+add_library(tiny_log STATIC
+    src/Logger.cpp
 )
 
-# 把项目根目录路径作为宏注入到编译器
-# FileSink 用它拼绝对路径，避免依赖运行时的 CWD（CLion / 命令行 / 双击 exe 行为不一致）
-target_compile_definitions(normaltest PRIVATE
+target_include_directories(tiny_log PUBLIC
+    ${CMAKE_SOURCE_DIR}/include
+)
+
+# 把项目根注入为字符串宏，避免运行时依赖 CWD
+target_compile_definitions(tiny_log PUBLIC
     TINY_LOG_PROJECT_ROOT="${CMAKE_SOURCE_DIR}"
 )
+
+# ---------------- Tests ----------------
+add_executable(normaltest tests/normaltest.cpp)
+target_link_libraries(normaltest PRIVATE tiny_log)

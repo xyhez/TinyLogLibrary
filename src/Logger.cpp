@@ -1,20 +1,25 @@
-#include "Logger.h"
+#include "tiny_log/Logger.h"
 
-void Logger::Print(LogLevel level,
+#include <chrono>
+#include <utility>
+
+#include "tiny_log/Record.h"
+
+namespace logging {
+
+void Logger::Print(Level level,
                    const std::string& message,
                    const std::string& source_location) {
-
-    LogRecord record(level,
-                     message,
-                     std::chrono::system_clock::now(),
-                     source_location);
+    Record record(level,
+                  message,
+                  std::chrono::system_clock::now(),
+                  source_location);
     for (auto& sink : sinks_) {
         sink->SinkIt(record);
     }
 }
 
-void Logger::Print(LogLevel level, const std::string& message) {
-    // 没有源码位置时转发给三参版本，避免逻辑重复
+void Logger::Print(Level level, const std::string& message) {
     Print(level, message, "");
 }
 
@@ -31,3 +36,5 @@ void Logger::Flush() {
         sink->Flush();
     }
 }
+
+} // namespace logging

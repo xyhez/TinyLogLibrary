@@ -10,6 +10,9 @@ namespace logging {
 void Logger::Print(Level level,
                    const std::string& message,
                    const std::string& source_location) {
+    if (!ShouldLog(level)) {
+        return;
+    }
     Record record(level,
                   message,
                   std::chrono::system_clock::now(),

@@ -27,9 +27,20 @@ public:
     void AddSink(std::shared_ptr<Sink> sink);
     void ClearSinks();
     void Flush();
+    void SetLevel(const Level level) {
+        level_ = level;
+    }
+    [[nodiscard]] Level GetLevel() const {
+        return level_;
+    }
+    [[nodiscard]] inline bool ShouldLog(Level level) const {
+        return level >= level_;
+    }
 
 private:
     std::vector<std::shared_ptr<Sink>> sinks_;
+
+    Level level_ = Level::Info;
 };
 
 } // namespace logging

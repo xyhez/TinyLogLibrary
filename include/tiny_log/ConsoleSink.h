@@ -12,10 +12,10 @@ namespace logging {
 /**
  * @brief 控制台输出：Error/Critical 走 cerr，其余走 cout
  */
-class ConsoleSink : public Sink {
+class ConsoleSink : public BaseSink {
 public:
     ConsoleSink() {
-        formatter_ = std::make_shared<SimpleFormatter>();
+        formatter_ = std::make_unique<SimpleFormatter>();
     }
 
     void SinkIt(const Record& record) override {

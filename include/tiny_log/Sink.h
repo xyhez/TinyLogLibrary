@@ -16,18 +16,30 @@ namespace logging {
  */
 class Sink {
 public:
-    Sink() : formatter_(std::make_shared<SimpleFormatter>()) {}
+    Sink() = default;
     virtual ~Sink() = default;
 
     virtual void SinkIt(const Record& record) = 0;
     virtual void Flush() = 0;
 
-    void SetFormatter(std::shared_ptr<Formatter> fmt) {
+
+
+protected:
+
+};
+
+
+class BaseSink : public Sink {
+public:
+    BaseSink() = default;
+    ~BaseSink() override = default;
+
+    void SetFormatter(std::unique_ptr<Formatter> fmt) {
         formatter_ = std::move(fmt);
     }
 
 protected:
-    std::shared_ptr<Formatter> formatter_;
+    std::unique_ptr<Formatter> formatter_;
 };
 
 } // namespace logging

@@ -23,7 +23,7 @@ public:
     void Print(Level level, const std::string& message);
     void Print(Level level,
                const std::string& message,
-               SourceLocation);
+               SourceLocation source_location);
 
     void AddSink(std::shared_ptr<Sink> sink);
     void ClearSinks();

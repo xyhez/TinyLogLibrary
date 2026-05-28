@@ -37,10 +37,7 @@ inline Logger* GetDefaultLogger() {
 namespace detail {
 
 inline SourceLocation MakeLocation(const char* file, int line, const char* func) {
-    SourceLocation sourceLocation{};
-    sourceLocation.file = file;
-    sourceLocation.function = func;
-    sourceLocation.line = line;
+    SourceLocation sourceLocation{file,line,func};
     return sourceLocation;
 }
 

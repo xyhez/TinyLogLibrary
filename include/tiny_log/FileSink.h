@@ -23,7 +23,7 @@ namespace logging {
  *   5. 自动建父目录
  *   6. 内部错误走 std::cerr，绝不走 LOG_ERROR（会无限递归）
  */
-class FileSink : public Sink {
+class FileSink : public BaseSink {
 public:
     explicit FileSink(std::string path)
         : path_(std::move(path)) {
@@ -33,7 +33,7 @@ public:
         }
 
         ofs_.open(path_, std::ios::out | std::ios::app);
-        formatter_ = std::make_shared<FullFormatter>();
+        formatter_ = std::make_unique<FullFormatter>();
 
         if (!ofs_.is_open()) {
             std::cerr << "[FileSink] failed to open " << path_ << '\n';

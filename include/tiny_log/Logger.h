@@ -6,6 +6,7 @@
 
 #include "Level.h"
 #include "Sink.h"
+#include "SourceLocation.h"
 
 namespace logging {
 
@@ -22,7 +23,7 @@ public:
     void Print(Level level, const std::string& message);
     void Print(Level level,
                const std::string& message,
-               const std::string& source_location);
+               SourceLocation);
 
     void AddSink(std::shared_ptr<Sink> sink);
     void ClearSinks();

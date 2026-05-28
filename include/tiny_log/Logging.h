@@ -7,6 +7,7 @@
 #include "ConsoleSink.h"
 #include "FileSink.h"
 #include "Logger.h"
+#include "SourceLocation.h"
 
 // CMake 通过 target_compile_definitions 注入项目根的绝对路径
 // 没用 CMake 构建时退化为 "."（当前目录），保证总是能编过
@@ -35,10 +36,12 @@ inline Logger* GetDefaultLogger() {
 
 namespace detail {
 
-inline std::string MakeLocation(const char* file, int line, const char* func) {
-    std::ostringstream oss;
-    oss << file << ":" << line << " " << func;
-    return oss.str();
+inline SourceLocation MakeLocation(const char* file, int line, const char* func) {
+    SourceLocation sourceLocation{};
+    sourceLocation.file = file;
+    sourceLocation.function = func;
+    sourceLocation.line = line;
+    return sourceLocation;
 }
 
 inline void PrintWithLocation(Level level,

@@ -19,7 +19,7 @@ public:
         std::ostringstream oss;
         oss << "[" << ToString(record.GetLevel()) << "] "
             << record.GetMessage()
-            << " [" << record.GetSourceLocation() << "]";
+            << " [" << record.GetSourceLocation().file << ":" << record.GetSourceLocation().line << "]";
         return oss.str();
     }
 };

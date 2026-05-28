@@ -5,6 +5,7 @@
 #include <utility>
 
 #include "Level.h"
+#include "SourceLocation.h"
 
 namespace logging {
 
@@ -16,11 +17,11 @@ public:
     Record(Level level,
            std::string message,
            std::chrono::system_clock::time_point time,
-           std::string source_location)
+           SourceLocation sourceLocation)
         : level_(level)
         , message_(std::move(message))
         , time_(time)
-        , source_location_(std::move(source_location)) {}
+        , source_location_(sourceLocation) {}
 
     Record() = default;
     ~Record() = default;
@@ -28,13 +29,13 @@ public:
     Level GetLevel() const { return level_; }
     std::chrono::system_clock::time_point GetTime() const { return time_; }
     const std::string& GetMessage() const { return message_; }
-    const std::string& GetSourceLocation() const { return source_location_; }
+    const SourceLocation& GetSourceLocation() const { return source_location_; }
 
 private:
     Level level_ = Level::Info;
     std::string message_;
     std::chrono::system_clock::time_point time_ = std::chrono::system_clock::now();
-    std::string source_location_;
+    SourceLocation source_location_;
 };
 
 } // namespace logging

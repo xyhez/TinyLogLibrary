@@ -19,7 +19,8 @@ public:
     std::string Format(const Record& record) override {
         std::ostringstream oss;
         oss << "[" << detail::TimeToString(record.GetTime()) << "] "
-            << "[" << record.GetSourceLocation() << "] "
+            << "[" << record.GetSourceLocation().file << ":" << record.GetSourceLocation().line
+            << " " << record.GetSourceLocation().function << "] "
             << "[" << ToString(record.GetLevel()) << "] "
             << record.GetMessage();
         return oss.str();

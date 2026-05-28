@@ -22,3 +22,4 @@ out/
 # Runtime artifacts
 logfile/
 /docs/LogLibraryOS.md
+/.claude/

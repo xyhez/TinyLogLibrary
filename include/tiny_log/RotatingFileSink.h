@@ -149,7 +149,11 @@ private:
         }
     }
 
-    std::string   base_path_;   ///< 要写如的文件
+    std::string   base_path_;       ///< 基础路径（如 "logfile/app.log"）
+    std::size_t   max_size_;        ///< 单个文件最大字节数，超过即触发 Rotate
+    std::size_t   max_files_;       ///< 保留的旧文件数量上限
+    std::size_t   current_size_ = 0;///< 当前文件累计字节数（启动时由 file_size 初始化）
+    std::ofstream ofs_;             ///< 当前在写的文件流
 };
 
 using RotatingFileSinkST = RotatingFileSink<NullMutex>;

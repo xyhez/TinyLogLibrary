@@ -8,6 +8,7 @@
 #include "FileSink.h"
 #include "Logger.h"
 #include "SourceLocation.h"
+#include "detail/NullMutex.h"
 
 // CMake 通过 target_compile_definitions 注入项目根的绝对路径
 // 没用 CMake 构建时退化为 "."（当前目录），保证总是能编过
@@ -16,7 +17,11 @@
 #endif
 
 namespace logging {
+    using ConsoleSinkST = ConsoleSink<NullMutex>;
+    using ConsoleSinkMT = ConsoleSink<std::mutex>;
 
+    using FileSinkST = FileSink<NullMutex>;
+    using FileSinkMT = FileSink<std::mutex>;
 /**
  * @brief 获取默认 Logger（进程内单例）
  *
@@ -26,8 +31,8 @@ inline Logger* GetDefaultLogger() {
     static Logger default_logger;
     static bool initialized = false;
     if (!initialized) {
-        default_logger.AddSink(std::make_shared<ConsoleSink>());
-        default_logger.AddSink(std::make_shared<FileSink>(
+        default_logger.AddSink(std::make_shared<ConsoleSinkST>());
+        default_logger.AddSink(std::make_shared<FileSinkST>(
             std::string(TINY_LOG_PROJECT_ROOT) + "/logfile/log1.txt"));
         initialized = true;
     }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <mutex>
 #include <utility>
 
 #include "Formatter.h"
@@ -22,24 +23,36 @@ public:
     virtual void SinkIt(const Record& record) = 0;
     virtual void Flush() = 0;
 
-
-
-protected:
-
 };
 
-
+template<typename Mutex>
 class BaseSink : public Sink {
 public:
     BaseSink() = default;
     ~BaseSink() override = default;
 
     void SetFormatter(std::unique_ptr<Formatter> fmt) {
+        std::lock_guard<Mutex> lock(mutex_);
         formatter_ = std::move(fmt);
     }
 
+    void SinkIt(const Record &record) final {
+        std::lock_guard<Mutex> lock(mutex_);
+        SinkItImpl(record);
+    }
+
+    void Flush() final{
+        std::lock_guard<Mutex> lock(mutex_);
+        FlushImpl();
+    }
+
 protected:
+    virtual void SinkItImpl(const Record& record) = 0;
+    virtual void FlushImpl() = 0;
+
+
     std::unique_ptr<Formatter> formatter_;
+    Mutex mutex_;
 };
 
 } // namespace logging

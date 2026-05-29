@@ -23,7 +23,9 @@ namespace logging {
  *   5. 自动建父目录
  *   6. 内部错误走 std::cerr，绝不走 LOG_ERROR（会无限递归）
  */
-class FileSink : public BaseSink {
+    template<typename Mutex>
+class FileSink : public BaseSink<Mutex> {
+    using BaseSink<Mutex>::formatter_;
 public:
     explicit FileSink(std::string path)
         : path_(std::move(path)) {
@@ -47,7 +49,7 @@ public:
         }
     }
 
-    void SinkIt(const Record& record) override {
+    void SinkItImpl(const Record& record) override {
         if (!ofs_.is_open()) {
             static bool reported = false;
             if (!reported) {
@@ -59,7 +61,7 @@ public:
         ofs_ << formatter_->Format(record) << '\n';
     }
 
-    void Flush() override {
+    void FlushImpl() override {
         if (ofs_.is_open()) {
             ofs_.flush();
         }

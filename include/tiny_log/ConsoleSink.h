@@ -6,6 +6,7 @@
 #include "Level.h"
 #include "Sink.h"
 #include "SimpleFormatter.h"
+#include "detail/NullMutex.h"
 
 namespace logging {
 
@@ -32,5 +33,8 @@ public:
         std::cerr.flush();
     }
 };
+
+    using ConsoleSinkST = ConsoleSink<NullMutex>;
+    using ConsoleSinkMT = ConsoleSink<std::mutex>;
 
 } // namespace logging

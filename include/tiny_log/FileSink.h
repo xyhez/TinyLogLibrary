@@ -9,6 +9,7 @@
 
 #include "FullFormatter.h"
 #include "Sink.h"
+#include "detail/NullMutex.h"
 
 namespace logging {
 
@@ -71,5 +72,9 @@ private:
     std::string   path_;
     std::ofstream ofs_;
 };
+
+
+    using FileSinkST = FileSink<NullMutex>;
+    using FileSinkMT = FileSink<std::mutex>;
 
 } // namespace logging

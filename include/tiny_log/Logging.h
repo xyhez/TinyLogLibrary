@@ -7,6 +7,7 @@
 #include "ConsoleSink.h"
 #include "FileSink.h"
 #include "Logger.h"
+#include "RotatingFileSink.h"
 #include "SourceLocation.h"
 #include "detail/NullMutex.h"
 
@@ -17,11 +18,8 @@
 #endif
 
 namespace logging {
-    using ConsoleSinkST = ConsoleSink<NullMutex>;
-    using ConsoleSinkMT = ConsoleSink<std::mutex>;
 
-    using FileSinkST = FileSink<NullMutex>;
-    using FileSinkMT = FileSink<std::mutex>;
+
 /**
  * @brief 获取默认 Logger（进程内单例）
  *
@@ -31,9 +29,9 @@ inline Logger* GetDefaultLogger() {
     static Logger default_logger;
     static bool initialized = false;
     if (!initialized) {
-        default_logger.AddSink(std::make_shared<ConsoleSinkST>());
-        default_logger.AddSink(std::make_shared<FileSinkST>(
-            std::string(TINY_LOG_PROJECT_ROOT) + "/logfile/log1.txt"));
+        default_logger.AddSink(std::make_shared<ConsoleSinkMT>());
+        default_logger.AddSink(std::make_shared<RotatingFileSinkMT>(
+            std::string(TINY_LOG_PROJECT_ROOT) + "/logfile/log1.txt",50000,3));
         initialized = true;
     }
     return &default_logger;

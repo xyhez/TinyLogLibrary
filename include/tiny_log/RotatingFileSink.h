@@ -41,20 +41,17 @@ public:
         : base_path_(std::move(base_path))
         , max_size_(max_size)
         , max_files_(max_files) {
-        // 自动建父目录
         const std::filesystem::path p(base_path_);
         if (p.has_parent_path()) {
             std::filesystem::create_directories(p.parent_path());
         }
 
-        // 启动时问一次文件大小，让追加模式能继承现有进度
         std::error_code ec;
         if (std::filesystem::exists(base_path_, ec)) {
             const auto sz = std::filesystem::file_size(base_path_, ec);
             current_size_ = ec ? 0 : sz;
         }
 
-        // 追加模式打开
         ofs_.open(base_path_, std::ios::out | std::ios::app);
         formatter_ = std::make_unique<FullFormatter>();
 
@@ -121,10 +118,8 @@ private:
      * 顺序很关键：必须从最大索引往下重命名，否则后写的会覆盖前一个的目标。
      */
     void Rotate() {
-        // 关闭当前 ofs（Windows 上未关闭的文件不能被 rename/remove）
         ofs_.close();
 
-        // 倒序重命名：
         std::error_code ec;
         for (std::size_t i = max_files_; i > 0; --i) {
             const std::string src = CalcFilename(base_path_, i - 1);
@@ -133,7 +128,6 @@ private:
             if (!std::filesystem::exists(src, ec)) {
                 continue;
             }
-            // 目标若已存在先删
             std::filesystem::remove(dst, ec);
             std::filesystem::rename(src, dst, ec);
             if (ec) {
@@ -143,11 +137,9 @@ private:
             }
         }
 
-        // 删除超出 max_files_ 的最老文件
         const std::string oldest = CalcFilename(base_path_, max_files_ + 1);
         std::filesystem::remove(oldest, ec);
 
-        // 重新打开 base.log，重置计数
         ofs_.open(base_path_, std::ios::out | std::ios::trunc);
         current_size_ = 0;
 
@@ -158,10 +150,6 @@ private:
     }
 
     std::string   base_path_;   ///< 要写如的文件
-    std::size_t   max_size_;    ///< 文件中写入最大字节数
-    std::size_t   max_files_;   ///< 最大留存文件数量
-    std::size_t   current_size_ = 0;    ///< 已写入字节数
-    std::ofstream ofs_;         ///< 写入流
 };
 
 using RotatingFileSinkST = RotatingFileSink<NullMutex>;

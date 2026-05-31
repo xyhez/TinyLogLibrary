@@ -74,7 +74,7 @@ private:
 };
 
 
-    using FileSinkST = FileSink<NullMutex>;
+    using FileSinkST = FileSink<detail::NullMutex>;
     using FileSinkMT = FileSink<std::mutex>;
 
 } // namespace logging

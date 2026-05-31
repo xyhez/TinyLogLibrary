@@ -34,6 +34,7 @@ inline Logger* GetDefaultLogger() {
             std::string(TINY_LOG_PROJECT_ROOT) + "/logfile/log1.txt",50000,3));
         initialized = true;
     }
+
     return &default_logger;
 }
 

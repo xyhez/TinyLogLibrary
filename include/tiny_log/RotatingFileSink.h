@@ -156,7 +156,7 @@ private:
     std::ofstream ofs_;             ///< 当前在写的文件流
 };
 
-using RotatingFileSinkST = RotatingFileSink<NullMutex>;
+using RotatingFileSinkST = RotatingFileSink<detail::NullMutex>;
 using RotatingFileSinkMT = RotatingFileSink<std::mutex>;
 
 } // namespace logging

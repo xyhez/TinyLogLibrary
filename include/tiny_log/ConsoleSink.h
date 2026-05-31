@@ -34,7 +34,7 @@ public:
     }
 };
 
-    using ConsoleSinkST = ConsoleSink<NullMutex>;
+    using ConsoleSinkST = ConsoleSink<detail::NullMutex>;
     using ConsoleSinkMT = ConsoleSink<std::mutex>;
 
 } // namespace logging

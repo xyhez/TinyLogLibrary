@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "Level.h"
@@ -19,6 +20,9 @@ namespace logging {
 class Logger {
 public:
     Logger() = default;
+    Logger(std::string  name) : name_(std::move(name)) {
+
+    }
 
     void Print(Level level, const std::string& message);
     void Print(Level level,
@@ -42,6 +46,7 @@ private:
     std::vector<std::shared_ptr<Sink>> sinks_;
 
     Level level_ = Level::Info;
+    std::string name_;
 };
 
 } // namespace logging

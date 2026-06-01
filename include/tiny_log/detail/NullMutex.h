@@ -6,9 +6,7 @@
 namespace logging::detail {
 class NullMutex {
 public:
-    void lock() {
-        std::cout << "NullMutex lock" << std::endl;
-    }
+    void lock() {}
     void unlock(){}
 };
 }

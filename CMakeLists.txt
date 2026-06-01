@@ -27,5 +27,6 @@ target_compile_definitions(tiny_log PUBLIC
 add_executable(normaltest tests/normaltest.cpp
         include/tiny_log/detail/NullMutex.h
         include/tiny_log/RotatingFileSink.h
-        include/tiny_log/detail/Registry.h)
+        include/tiny_log/detail/Registry.h
+        include/tiny_log/src/Registry.cpp)
 target_link_libraries(normaltest PRIVATE tiny_log)

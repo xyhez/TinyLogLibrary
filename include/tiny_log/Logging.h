@@ -39,6 +39,39 @@ inline Logger* GetLogger(const std::string& name) {
     return detail::Registry::GetInstance()->GetLogger(name);
 }
 
+// ============================================================
+// 全局便捷接口（P7.2）
+// ============================================================
+
+/**
+ * @brief 一键设置全局 level（双层过滤的全局上限）
+ *
+ * 配合每个 Logger 自己的 level 形成双层过滤：record 必须同时
+ * 通过两层才会输出。Off 立刻静音所有日志，恢复时各 Logger 自己
+ * 的 level 配置不丢。
+ */
+inline void SetGlobalLevel(Level level) {
+    detail::Registry::GetInstance()->SetGlobalLevel(level);
+}
+
+/**
+ * @brief 一键 flush 所有 Logger 的所有 sink
+ *
+ * 程序退出 / 崩溃前调用，避免缓冲区数据丢失。
+ */
+inline void FlushAll() {
+    detail::Registry::GetInstance()->FlushAll();
+}
+
+/**
+ * @brief 一键设置所有 Logger 的 flush_on_level
+ *
+ * 达到这个 level 的日志写入后立即 flush，避免 crash 时丢失关键日志。
+ */
+inline void SetFlushOnLevel(Level level) {
+    detail::Registry::GetInstance()->SetFlushOnLevel(level);
+}
+
 namespace detail {
 
 inline SourceLocation MakeLocation(const char* file, int line, const char* func) {

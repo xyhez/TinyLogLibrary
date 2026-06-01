@@ -42,10 +42,18 @@ public:
         return level >= level_;
     }
 
+    void SetFlushOnLevel(const Level level) {
+        flush_on_level_ = level;
+    }
+    [[nodiscard]] Level GetFlushOnLevel() const {
+        return flush_on_level_;
+    }
+
 private:
     std::vector<std::shared_ptr<Sink>> sinks_;
 
     Level level_ = Level::Info;
+    Level flush_on_level_ = Level::Critical;
     std::string name_;
 };
 

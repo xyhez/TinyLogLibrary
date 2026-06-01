@@ -22,9 +22,21 @@ Logger *Registry::GetDefaultLogger() {
 }
 
 void Registry::FlushAll() {
-for (auto& [name, logger] : loggers_) {
-    logger->Flush();
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (auto& [name, logger] : loggers_) {
+        logger->Flush();
+    }
 }
+
+void Registry::SetGlobalLevel(Level level) {
+    global_level_.store(level, std::memory_order_relaxed);
+}
+
+void Registry::SetFlushOnLevel(Level level) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (auto& [name, logger] : loggers_) {
+        logger->SetFlushOnLevel(level);
+    }
 }
 
 // 静态成员变量类外初始化

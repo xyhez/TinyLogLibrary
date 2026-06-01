@@ -1,4 +1,5 @@
 #pragma once
+#include <atomic>
 #include <memory>
 #include <unordered_map>
 #include "tiny_log/Logger.h"
@@ -32,9 +33,28 @@ public:
     Logger* GetDefaultLogger();
 
     /**
-     * @brief 刷新所有L
+     * @brief 刷新所有Logger
      */
     void FlushAll();
+
+    /**
+     * @brief 一键设置全局 level（双层过滤的全局上限）
+     * @param level
+     */
+    void SetGlobalLevel(Level level);
+
+    /**
+     * @brief 获取全局 level
+     */
+    [[nodiscard]] Level GetGlobalLevel() const {
+        return global_level_.load(std::memory_order_relaxed);
+    }
+
+    /**
+    * @brief一键设置所有 Logger 的 flush_on_level,达到这个 level 立即刷盘，避免 crash 时丢日志
+     * @param level
+     */
+    void SetFlushOnLevel(Level level);
 
     // 禁用拷贝构造和赋值运算符
     Registry(const Registry& obj) = delete;
@@ -53,9 +73,12 @@ private:
     }
 
     static Registry* registry_;     ///< 单例
+    std::atomic<Level> global_level_ {Level::Trace};   ///< 全局 level，默认 Trace = 全放行
 
     std::unordered_map<std::string, std::unique_ptr<Logger>> loggers_;
     std::mutex mutex_;
 
 };
+
+
 }

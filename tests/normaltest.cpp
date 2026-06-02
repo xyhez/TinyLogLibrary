@@ -89,5 +89,41 @@ int main() {
         std::cout << "[CbMixed] callback_hits = " << callback_hits << " (期望 2)\n";
     }
 
+    // ============================================================
+    // P9.A1：std::format 格式化宏测试
+    // ============================================================
+    {
+        auto* logger = logging::GetLogger("FmtTest");
+        logger->ClearSinks();
+        logger->AddSink(std::make_shared<logging::ColorSinkMT>());
+        logger->SetLevel(logging::Level::Trace);
+
+        std::cout << "\n[FmtTest] std::format 占位符:\n";
+
+        // 1. 基本占位符 + 多种类型
+        std::string name = "wang";
+        int age = 22;
+        LOG_INFO_FMT_TO(logger, "user={} age={}", name, age);
+
+        // 2. 格式说明符：保留小数 / 16 进制
+        double score = 95.6789;
+        LOG_INFO_FMT_TO(logger, "score={:.2f}", score);
+        LOG_INFO_FMT_TO(logger, "byte=0x{:02x}", 255);
+
+        // 3. 对齐和填充
+        LOG_INFO_FMT_TO(logger, "right-align: '{:>10}'", "hi");
+        LOG_INFO_FMT_TO(logger, "padded:     '{:*<10}'", "hi");
+
+        // 4. 无参数（__VA_OPT__ 测试）
+        LOG_INFO_FMT_TO(logger, "no args, just text");
+
+        // 5. 默认 logger 入口
+        LOG_INFO_FMT("default logger fmt: {}+{}={}", 1, 2, 1+2);
+        LOG_ERROR_FMT("error fmt: code={}, reason={}", 42, "timeout");
+
+        // 6. 编译期类型安全 —— 取消注释会编译失败
+        // LOG_INFO_FMT_TO(logger, "wrong type: {:d}", "not_a_number");
+    }
+
     return 0;
 }

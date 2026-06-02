@@ -1,5 +1,6 @@
 #pragma once
 
+#include <format>
 #include <memory>
 #include <sstream>
 #include <string>
@@ -151,5 +152,83 @@ inline void PrintWithLocation(Level level,
 
 #define LOG_CRITICAL_TO(logger, msg) \
     (logger)->Print(::logging::Level::Critical, (msg), \
+        ::logging::SourceLocation{__FILE__, __LINE__, __func__})
+
+
+// ============================================================
+// 格式化宏（C++20 std::format）
+//
+// 用法：
+//     LOG_INFO_FMT("user={} age={}", name, age);
+//     LOG_ERROR_FMT("conn {} failed: {:.2f}s", ip, elapsed);
+//     LOG_INFO_FMT_TO(my_logger, "value = {:#x}", n);
+//
+// 与 LOG_XXX 相比：自动 to_string、支持格式说明符、C++20 编译期类型校验。
+// 与 LOG_XXX 不同点：每次调用都会构造一个 std::string（格式化的固有成本）。
+//
+// __VA_OPT__(,) 是 C++20 标准——args 为空时不展开逗号，
+// 让 LOG_INFO_FMT("no args") 也合法。
+// ============================================================
+
+// ---- 默认 Logger ----
+#define LOG_TRACE_FMT(fmt, ...) \
+    ::logging::detail::PrintWithLocation(::logging::Level::Trace, \
+        std::format(fmt __VA_OPT__(,) __VA_ARGS__), \
+        __FILE__, __LINE__, __func__)
+
+#define LOG_DEBUG_FMT(fmt, ...) \
+    ::logging::detail::PrintWithLocation(::logging::Level::Debug, \
+        std::format(fmt __VA_OPT__(,) __VA_ARGS__), \
+        __FILE__, __LINE__, __func__)
+
+#define LOG_INFO_FMT(fmt, ...) \
+    ::logging::detail::PrintWithLocation(::logging::Level::Info, \
+        std::format(fmt __VA_OPT__(,) __VA_ARGS__), \
+        __FILE__, __LINE__, __func__)
+
+#define LOG_WARN_FMT(fmt, ...) \
+    ::logging::detail::PrintWithLocation(::logging::Level::Warn, \
+        std::format(fmt __VA_OPT__(,) __VA_ARGS__), \
+        __FILE__, __LINE__, __func__)
+
+#define LOG_ERROR_FMT(fmt, ...) \
+    ::logging::detail::PrintWithLocation(::logging::Level::Error, \
+        std::format(fmt __VA_OPT__(,) __VA_ARGS__), \
+        __FILE__, __LINE__, __func__)
+
+#define LOG_CRITICAL_FMT(fmt, ...) \
+    ::logging::detail::PrintWithLocation(::logging::Level::Critical, \
+        std::format(fmt __VA_OPT__(,) __VA_ARGS__), \
+        __FILE__, __LINE__, __func__)
+
+// ---- 指定 Logger ----
+#define LOG_TRACE_FMT_TO(logger, fmt, ...) \
+    (logger)->Print(::logging::Level::Trace, \
+        std::format(fmt __VA_OPT__(,) __VA_ARGS__), \
+        ::logging::SourceLocation{__FILE__, __LINE__, __func__})
+
+#define LOG_DEBUG_FMT_TO(logger, fmt, ...) \
+    (logger)->Print(::logging::Level::Debug, \
+        std::format(fmt __VA_OPT__(,) __VA_ARGS__), \
+        ::logging::SourceLocation{__FILE__, __LINE__, __func__})
+
+#define LOG_INFO_FMT_TO(logger, fmt, ...) \
+    (logger)->Print(::logging::Level::Info, \
+        std::format(fmt __VA_OPT__(,) __VA_ARGS__), \
+        ::logging::SourceLocation{__FILE__, __LINE__, __func__})
+
+#define LOG_WARN_FMT_TO(logger, fmt, ...) \
+    (logger)->Print(::logging::Level::Warn, \
+        std::format(fmt __VA_OPT__(,) __VA_ARGS__), \
+        ::logging::SourceLocation{__FILE__, __LINE__, __func__})
+
+#define LOG_ERROR_FMT_TO(logger, fmt, ...) \
+    (logger)->Print(::logging::Level::Error, \
+        std::format(fmt __VA_OPT__(,) __VA_ARGS__), \
+        ::logging::SourceLocation{__FILE__, __LINE__, __func__})
+
+#define LOG_CRITICAL_FMT_TO(logger, fmt, ...) \
+    (logger)->Print(::logging::Level::Critical, \
+        std::format(fmt __VA_OPT__(,) __VA_ARGS__), \
         ::logging::SourceLocation{__FILE__, __LINE__, __func__})
 

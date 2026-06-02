@@ -33,3 +33,9 @@ add_executable(normaltest tests/normaltest.cpp
         include/tiny_log/AsyncLogger.h
         src/AsyncLogger.cpp)
 target_link_libraries(normaltest PRIVATE tiny_log)
+
+# ---------------- Benchmark ----------------
+add_executable(benchmark tests/benchmark.cpp
+        include/tiny_log/src/Registry.cpp
+        src/AsyncLogger.cpp)
+target_link_libraries(benchmark PRIVATE tiny_log)

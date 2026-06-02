@@ -15,7 +15,7 @@ Registry::Registry() {
     auto def = std::make_unique<Logger>("default");
     def->AddSink(std::make_shared<ConsoleSinkMT>());
     def->AddSink(std::make_shared<RotatingFileSinkMT>(
-        std::string(TINY_LOG_PROJECT_ROOT) + "/logfile/log1.txt", 50000, 3));
+        std::string(TINY_LOG_PROJECT_ROOT) + "/logfile/log.txt", 50000, 3));
     loggers_["default"] = std::move(def);
 }
 

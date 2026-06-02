@@ -12,6 +12,11 @@
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+// windows.h 通过宏污染了一堆通用名字，undef 掉避免和我们的成员函数冲突
+// （比如 r.GetMessage() 会被替换成 r.GetMessageA()）
+#ifdef GetMessage
+#undef GetMessage
+#endif
 #endif
 
 namespace logging {

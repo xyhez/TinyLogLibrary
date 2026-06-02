@@ -21,7 +21,7 @@ struct ThreadPoolConfig {
 
     ThreadPoolConfig(size_t core_threads = 5, size_t max_threads = 10,
                      std::chrono::seconds idle_timeout = std::chrono::seconds(10),
-                     size_t max_queue_size = 30,
+                     size_t max_queue_size = 300,
                      std::chrono::seconds destroy_timeout = std::chrono::seconds(0))
                      : core_threads_(core_threads)
                      , max_threads_(max_threads)

@@ -102,14 +102,12 @@ inline void PrintWithLocation(Level level,
 
 
 // ============================================================
-// 用户使用入口：必须是宏，C++17 下函数捕获不到调用点位置
-// ============================================================
-//
 // 用法：
 //     LOG_INFO("hello");
 //     LOG_ERROR("something broke: " + reason);
 // ============================================================
 
+// 使用默认的Logger
 #define LOG_TRACE(msg) \
     ::logging::detail::PrintWithLocation(::logging::Level::Trace,    (msg), __FILE__, __LINE__, __func__)
 
@@ -130,7 +128,7 @@ inline void PrintWithLocation(Level level,
 
 
 
-
+// 使用指定的Logger
 #define LOG_TRACE_TO(logger, msg) \
     (logger)->Print(::logging::Level::Trace, (msg), \
         ::logging::SourceLocation{__FILE__, __LINE__, __func__})

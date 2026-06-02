@@ -23,9 +23,9 @@ public:
     Logger(std::string  name) : name_(std::move(name)) {
 
     }
+    virtual ~Logger() = default;
 
-    void Print(Level level, const std::string& message);
-    void Print(Level level,
+    virtual void Print(Level level,
                const std::string& message,
                SourceLocation source_location);
 
@@ -49,9 +49,8 @@ public:
         return flush_on_level_;
     }
 
-private:
+protected:
     std::vector<std::shared_ptr<Sink>> sinks_;
-
     Level level_ = Level::Info;
     Level flush_on_level_ = Level::Critical;
     std::string name_;

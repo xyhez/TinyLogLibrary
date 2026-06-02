@@ -39,6 +39,16 @@ inline Logger* GetLogger(const std::string& name) {
     return detail::Registry::GetInstance()->GetLogger(name);
 }
 
+/**
+ * @brief 按名字获取 AsyncLogger，不存在则由 Registry 自动创建
+ *
+ * 异步 Logger 把"分发到 sinks"丢给全局共享的 ThreadPool，业务线程立刻返回。
+ * 用法：auto* net = logging::GetAsyncLogger("AsyncNet");
+ */
+inline Logger* GetAsyncLogger(const std::string& name) {
+    return detail::Registry::GetInstance()->GetAsyncLogger(name);
+}
+
 // ============================================================
 // 全局便捷接口（P7.2）
 // ============================================================

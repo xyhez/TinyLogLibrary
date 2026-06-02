@@ -30,9 +30,6 @@ void Logger::Print(Level level,
     }
 }
 
-void Logger::Print(Level level, const std::string& message) {
-    Print(level, message, SourceLocation());
-}
 
 void Logger::AddSink(std::shared_ptr<Sink> sink) {
     sinks_.push_back(std::move(sink));

@@ -12,6 +12,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # ---------------- Library ----------------
 add_library(tiny_log STATIC
     src/Logger.cpp
+    src/ThreadPool.cpp
 )
 
 target_include_directories(tiny_log PUBLIC
@@ -28,5 +29,7 @@ add_executable(normaltest tests/normaltest.cpp
         include/tiny_log/detail/NullMutex.h
         include/tiny_log/RotatingFileSink.h
         include/tiny_log/detail/Registry.h
-        include/tiny_log/src/Registry.cpp)
+        include/tiny_log/src/Registry.cpp
+        include/tiny_log/AsyncLogger.h
+        src/AsyncLogger.cpp)
 target_link_libraries(normaltest PRIVATE tiny_log)

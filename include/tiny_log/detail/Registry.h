@@ -5,13 +5,19 @@
 #include "tiny_log/Logger.h"
 #include "tiny_log/ConsoleSink.h"
 #include "tiny_log/RotatingFileSink.h"
+#include "tiny_log/detail/ThreadPool.h"
 
 /**
  * @brief 通过Registry管理项目中的所有Logger，适配不同模块对日志输出的不同需求
  *
  * 单例模式，内部管理静态对象，不允许外界创建，只允许获取
  */
-namespace logging::detail {
+namespace logging {
+
+class AsyncLogger;   // 前向声明，避免 Registry.h ↔ AsyncLogger.h 循环
+
+namespace detail {
+
 class Registry {
 public:
 
@@ -21,14 +27,21 @@ public:
 
     /**
      * @brief 根据name返回logger
-     * @param name
-     * @return
      */
     Logger *GetLogger(const std::string &name);
 
     /**
+     * @brief 根据 name 返回 AsyncLogger，不存在则创建（共享全局 ThreadPool）
+     */
+    Logger* GetAsyncLogger(const std::string& name);
+
+    /**
+     * @brief 获取全局共享的 ThreadPool（异步日志专用）
+     */
+    std::shared_ptr<ThreadPool> GetThreadPool() const { return thread_pool_; }
+
+    /**
      * @brief 返回默认Logger
-     * @return
      */
     Logger* GetDefaultLogger();
 
@@ -39,7 +52,6 @@ public:
 
     /**
      * @brief 一键设置全局 level（双层过滤的全局上限）
-     * @param level
      */
     void SetGlobalLevel(Level level);
 
@@ -51,34 +63,25 @@ public:
     }
 
     /**
-    * @brief一键设置所有 Logger 的 flush_on_level,达到这个 level 立即刷盘，避免 crash 时丢日志
-     * @param level
+    * @brief 一键设置所有 Logger 的 flush_on_level
      */
     void SetFlushOnLevel(Level level);
 
-    // 禁用拷贝构造和赋值运算符
     Registry(const Registry& obj) = delete;
     Registry& operator=(const Registry& obj) = delete;
-    ~Registry() = default;
+    ~Registry();
 
 private:
-    // 私有构造函数
-    Registry() {
-        // 单例构造时 "default" Logger创建好
-        std::unique_ptr<Logger> def = std::make_unique<Logger>("default");
-        def->AddSink(std::make_shared<ConsoleSinkMT>());
-        def->AddSink(std::make_shared<RotatingFileSinkMT>(
-            std::string(TINY_LOG_PROJECT_ROOT) + "/logfile/log1.txt", 50000, 3));
-        loggers_["default"] = std::move(def);
-    }
+    Registry();
 
     static Registry* registry_;     ///< 单例
-    std::atomic<Level> global_level_ {Level::Trace};   ///< 全局 level，默认 Trace = 全放行
+    std::atomic<Level> global_level_ {Level::Trace};
+
+    std::shared_ptr<ThreadPool> thread_pool_;   ///< 全局共享的线程池（异步日志用）
 
     std::unordered_map<std::string, std::unique_ptr<Logger>> loggers_;
     std::mutex mutex_;
-
 };
 
-
-}
+}   // namespace detail
+}   // namespace logging
